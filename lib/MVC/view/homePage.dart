@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../widget/big_text.dart';
 import '../../widget/small_text.dart';
-import '../controller/db_conrtoller.dart';
 import '../controller/home_controller.dart';
+import '../controller/productWhereCategory.dart';
 import '../controller/product_det_controller.dart';
 import '../models/prodect_model.dart';
 
@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer2<HomeController,ProductController>(
-        builder: (context, controller, controller2, child) {
+    return  Consumer3<HomeController,ProductController,ProductCategoryController>(
+        builder: (context, controller, controller2, controller3 ,child) {
         return
           Container(
           padding: EdgeInsets.only(
@@ -47,15 +47,8 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
-                    ProductModel Product = ProductModel(
-                      name: 'Product ${index + 1}',
-                      image: 'https://imglarger.com/Images/before-after/ai-image-upscaler-2-after.jpg',
-                      price: 100,
-                      description: 'Product ${index + 1} description',
-
-                    );
-                     context.read<DbController>().insertNewStudent(Product);
-
+                    controller3.setCategory(category: controller.Categories[index].id!);
+                    Navigator.pushNamed(context, '/categoryPage');
 
                   },
                   child: Column(
@@ -107,10 +100,15 @@ class HomePage extends StatelessWidget {
                     text: 'Best Selling',
                     fontSize: 18,
                   ),
-                  SmallText(
-                    text: 'See All',
-                    fontSize: 15,
-                    color: Colors.black87,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/products');
+                    },
+                    child: SmallText(
+                      text: 'See All',
+                      fontSize: 15,
+                      color: Colors.black87,
+                    ),
                   ),
                 ],
               ),
@@ -126,7 +124,16 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context,index){
                   return InkWell(
                       onTap: () {
-                        controller2.productsCart.add(controller.products[index]) ;
+                        ProductModel productModel = ProductModel(
+                            id: controller.products[index].id,
+                            name: controller.products[index].name,
+                            price: controller.products[index].price,
+                            image: controller.products[index].image,
+                            description: controller.products[index].description,
+                            category: controller.products[index].category,
+
+                        );
+                        controller2.productsCart.add(productModel) ;
                         Navigator.pushNamed(context, '/productDetails');
                       },
                       child: Container(

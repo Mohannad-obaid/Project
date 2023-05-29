@@ -21,8 +21,10 @@ class ProductController extends ChangeNotifier  {
       bool state = await addToCart(productModel: productModel);
       if (state) {
         print('Success');
+        print(state);
       }else{
         print('Failed');
+        print(state);
       }
     }
     catch(e){

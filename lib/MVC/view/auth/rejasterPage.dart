@@ -26,7 +26,7 @@ class SignUpPage extends StatelessWidget {
             color: Colors.black,
           ),
           onPressed: () {
-          //  Get.back();
+            Navigator.pop(context);
           },
         ),
       ),

@@ -12,12 +12,11 @@ class DbController extends ChangeNotifier {
 
 
   List<ProductModel> Product = [];
-  int total = 0;
+  double total = 0;
 
  getAllTotal() {
-    total = 0;
     for (var element in Product) {
-      total += double.parse(element.price! as String) as int ;
+      total += element.price!  ;
     }
     notifyListeners();
   }
@@ -31,8 +30,13 @@ class DbController extends ChangeNotifier {
 
   getAllStudents() async {
     flipIsLoading();
-    Product = await DbHelper.dbHelper.getAllStudents();
+    Product = await DbHelper.dbHelper.getAllProduct();
+    Product.forEach((element) {
+      print(element.name);
+    });
+    getAllTotal();
     flipIsLoading();
+
   }
 
 
@@ -44,8 +48,9 @@ class DbController extends ChangeNotifier {
 
   deleteStudent(String id) async {
 
-    await DbHelper.dbHelper.deleteStudent(int.parse(id));
-    Product.removeWhere((element) => element.idProduct == id);
+    await DbHelper.dbHelper.deleteProduct(id);
+    Product.removeWhere((element) => element.id == id);
+    getAllTotal();
     notifyListeners();
   }
 }

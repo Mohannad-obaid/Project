@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project01/MVC/view/profile.dart';
+import 'add_product.dart';
 import 'cartPage.dart';
 import 'homePage.dart';
 
@@ -31,6 +32,7 @@ class _MainPageState extends State<MainPage> {
         children:   const [
           HomePage(),
           CartPage(),
+          AddPost(),
           ProfilePage(),
 
         ],
@@ -76,7 +78,11 @@ class _MainPageState extends State<MainPage> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon:  _selectedIndex != 2 ?   Image.asset('assets/icons/Icon_User.png',height: 25,width: 30,): const ImageIcon(AssetImage('assets/icons/Account.png')),
+            icon:  _selectedIndex != 2 ?  const Icon(Icons.add,color: Colors.green,): const Icon(Icons.add,color: Colors.grey,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon:  _selectedIndex != 3 ?   Image.asset('assets/icons/Icon_User.png',height: 25,width: 30,): const ImageIcon(AssetImage('assets/icons/Account.png')),
             label:  '',
           ),
 

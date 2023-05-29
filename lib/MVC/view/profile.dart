@@ -4,6 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../../Firebase/auth_firebase_Email.dart';
+import '../../main.dart';
 import '../../utils/helper.dart';
 import '../controller/profile_controller.dart';
 
@@ -22,6 +24,16 @@ class ProfilePage extends StatelessWidget with Helpers{
           style: GoogleFonts.aBeeZee(color: Colors.white),
         ),
 
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await FbAuthController().singOut();
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+
         backgroundColor: Colors.green.shade400,
         centerTitle: true,
         leading: Switch(
@@ -29,7 +41,7 @@ class ProfilePage extends StatelessWidget with Helpers{
           onChanged: (value) {
             context.read<ProfileController>().changeTheme();
           },
-          activeColor: Colors.green.shade400,
+          activeColor: Colors.white,
           activeTrackColor: Colors.grey,
           inactiveThumbColor: Colors.green.shade400,
           inactiveTrackColor: Colors.grey,
@@ -63,7 +75,7 @@ class ProfilePage extends StatelessWidget with Helpers{
                       child: ClipOval(
                         child: context.read<ProfileController>().pickedFile == null
                             ?Image.network(
-                          "snapshot.data!['image']",
+                          snapshot.data!['image'],
                           fit: BoxFit.cover,
                         )
                             : Image.file(

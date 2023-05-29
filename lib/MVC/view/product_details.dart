@@ -1,12 +1,16 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../widget/app_icon.dart';
 import '../../widget/big_text.dart';
 import '../../widget/small_text.dart';
+import '../controller/db_conrtoller.dart';
 import '../controller/product_det_controller.dart';
+import '../models/prodect_model.dart';
 
 
 
@@ -150,8 +154,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                     MediaQuery.of(context).size.height * 0.06),
               ),
               onPressed: ()async{
-                print(controller.productsCart[0].toMap());
-                await controller.addProductToCart(controller!.productsCart[0]);
+                ProductModel Product = ProductModel(
+                  id: controller.productsCart[0].id!,
+                  name: controller.productsCart[0].name!,
+                  price: controller.productsCart[0].price!,
+                  image: controller.productsCart[0].image!,
+                  description: controller.productsCart[0].description!,
+                  category: controller.productsCart[0].category!,
+                );
+               // context.read<DbController>().insertNewStudent(Product);
+               print(Product.id);
+               // log(Product.toMap());
+                await controller.addProductToCart(Product);
+                 controller.productsCart.clear();
               },
               child: const Center(
                   child:  Text(
